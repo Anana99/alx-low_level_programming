@@ -1,20 +1,20 @@
 #include "main.h"
 
 /**
- * print_most_numbers - Print numbers from 0-9 except 4 & 2
+ * print_line - Print a line of n length
+ * @n: Length of line
  *
- * Return: nothing
+ * Return: Nothing
  */
-void print_most_numbers(void)
+void print_line(int n)
 {
-	int n;
+	int c = 0;
 
-	n = 0;
-	while (n <= 9)
+	while (c < n)
 	{
-		if (n != 2 && n != 4)
-			_putchar(n + '0');
-		n++;
+		if (n > 0)
+			_putchar('_');
+		c++;
 	}
 	_putchar('\n');
 }
