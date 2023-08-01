@@ -8,20 +8,16 @@
  */
 int pop_listint(listint_t **head)
 {
-	int data = 0;
+		listint_t *temp;
+		int num;
 
-	/* If the list is empty, return 0 */
-	if (*head == NULL)
-	{
-		return (0);
-	}
+		if (!head || !*head)
+			return (0);
 
-	/* Store the data of the head node to be returned */
-	data = (*head)->n;
+		num = (*head)->n;
+		temp = (*head)->next;
+		free(*head);
+		*head = temp;
 
-	/* Move the head pointer to the next node (delete the current head) */
-	*head = (*head)->next;
-
-	/* Return the data of the deleted head node */
-	return (data);
+		return (num);
 }
