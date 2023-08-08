@@ -9,39 +9,32 @@
  *
  * Return: The actual number of letters read and printed, or 0 on failure.
  */
+
 ssize_t read_textfile(const char *filename, size_t letters)
 {
-	ssize_t n_read = 0;
-	ssize_t n_written = 0;
+	 ssize_t o, r, w;
 	char *buffer;
-	FILE *file;
 
 	if (filename == NULL)
 		return (0);
 
-	file = fopen(filename, "r");
-	if (file == NULL)
+	buffer = malloc(sizeof(char) * letters);
+	if (buffer ==  NULL)
 		return (0);
 
-	buffer = malloc(sizeof(char) * (letters + 1));
-	if (buffer == NULL)
-	{
-		fclose(file);
-		return (0);
-	}
+	o = open(filename, O_RDONLY);
+	r = read(o, buffer, letters);
+	w = write(STDOUT_FILENO, buffer, r);
 
-	n_read = fread(buffer, sizeof(char), letters, file);
-	if (n_read > 0)
+	if (o == -1 || r == -1 || w == -1 || w != r)
 	{
-		buffer[n_read] = '\0';
-		n_written = fwrite(buffer, sizeof(char), n_read, stdout);
+		free(buffer);
+		return (0);
 	}
 
 	free(buffer);
-	fclose(file);
+	close(o);
 
-	if (n_read != n_written)
-		return (0);
+	return (w);
 
-	return (n_written);
 }
